@@ -45,7 +45,7 @@ def ping():
         if respuesta[0]:
                 print(f'Respuesta de {objetivo} ')
         else:
-                print('{objetivo} no responde.')
+                print(f'{objetivo} no responde.')
 
 if args.scan:
         if args.range:
