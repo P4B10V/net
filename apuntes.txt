@@ -1,0 +1,8 @@
+APUNTES:
+
+- Si no se define verbose y timeout al enviar paquetes Scapy se queda 'colgado' y no dejará terminar la ejecucion del script.
+## verbose=0 -> es necesario para que no ensucie la salida de la consola.
+## timeout=n -> donde n son los segundos que esperará para parar.
+
+RESUMEN:
+
