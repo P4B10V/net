@@ -24,3 +24,8 @@ Envio de un paquete ICMP.
 
 Agregado: 
 - Se puede introducir el objetivo para enviar el paquete ICMP. -t --target 
+
+    TRABAJANDO:
+
+## SERVICIOS
+Averiguar que tipo de servicio está escuchando en un puerto e ip. Estoy teniendo problemas con la secuencia en la que trabaja TCP. 
