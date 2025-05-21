@@ -6,7 +6,7 @@ timeout=n -> donde n son los segundos que esperará para parar.
 
 ## Como trabajan los modos de envío:
 srp() -> capa 2, frames
-sr1() -> capa 3, paquetes
+sr1() -> capa 3, paquetes --Envía un único paquete y devuelve solo la primera respuesta recibida.
 
     FUNCIONALIDADES:
 
