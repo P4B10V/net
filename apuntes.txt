@@ -29,3 +29,4 @@ Agregado:
 
 ## SERVICIOS
 Averiguar que tipo de servicio está escuchando en un puerto e ip. Estoy teniendo problemas con la secuencia en la que trabaja TCP. 
+No sé como obtener la información del servicio.
