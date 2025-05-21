@@ -1,7 +1,7 @@
 ## SNIFFER ##
 
 import argparse
-from scapy.all import ARP, Ether, IP, ICMP, srp, sr1
+from scapy.all import ARP, Ether, IP, ICMP, TCP, srp, sr1, sr
 
 
 
@@ -12,8 +12,10 @@ parser = argparse.ArgumentParser(prog='~ SNIFFER ~',
 #store_true hace que la opción sea booleana, es decir, si se usa == True, y si no == False
 parser.add_argument('-s', '--scan', action='store_true', help='Escanear la red en busca de dispositivos activos')
 parser.add_argument('-r', '--range', type=str, help='Rango en el que se realizará el escaneo')
-parser.add_argument('-p', '--ping', action='store_true', help='Enviar un paquete ICMP')
+parser.add_argument('-i', '--icmp', action='store_true', help='Enviar un paquete ICMP')
 parser.add_argument('-t', '--target', type=str, help='Target para enviar el paquete ICMP')
+parser.add_argument('-p', '--port', type=int, help='Especificar el puerto')
+parser.add_argument('-S', '--service', action='store_true', help='Analizar servicios de un host')
 
 args = parser.parse_args()
 
@@ -35,7 +37,7 @@ def escaneo():
 
         print(f'{dispositivos} Dispositivos encontrados en la red.')
 
-def ping():
+def icmp():
 
         ip = IP(dst=objetivo)
         paquete = ip / ICMP()
@@ -49,20 +51,49 @@ def ping():
         if respuesta[0]:
                 print(f'Respuesta de {objetivo} ')
 
+def service(): #NO FUNCIONA 
+
+        paquete = IP(dst=objetivo) / TCP(flags='S',dport=PORT)
+
+        respuesta = sr(paquete, timeout=1, verbose=0)
+
+        if respuesta[0]:
+
+                paquete = IP(dst=objetivo) / TCP(flags='A',dport=PORT)
+                respuesta = sr(paquete, timeout=1, verbose=0)
+
+                respuesta[0].show()
+
+
 if args.scan:
         if args.range:
                 red = args.range
                 escaneo()
         else:
                 print('Falta argumento -r, --range para escanear la red.')
-elif args.ping:
+elif args.icmp:
         if args.target:
                 objetivo = args.target
-                ping()
+                icmp()
         else:
                 print('Falta argumento -t, --target para enviar ICMP.')
+elif args.service:
+        if args.port:
+                PORT = args.port
+                if args.target:
+                        objetivo = args.target
+                else:
+                        print('Necesitas ingresar una ip: -t --target')
+        else:
+                print('Necesitas ingresar puerto -p --port y un objetivo -t --target')
+
 else:
         parser.print_help()
+
+
+## verbose=0 -> es necesario para que no ensucie la salida de la consola.
+## timeout=n -> donde n son los segundos que esperará para parar.
+
 
 
 
