@@ -1,8 +1,26 @@
-APUNTES:
+    APUNTES:
 
-- Si no se define verbose y timeout al enviar paquetes Scapy se queda 'colgado' y no dejará terminar la ejecucion del script.
-## verbose=0 -> es necesario para que no ensucie la salida de la consola.
-## timeout=n -> donde n son los segundos que esperará para parar.
+## Si no se define verbose y timeout al enviar paquetes Scapy se queda 'colgado' y no dejará terminar la ejecución del script.
+verbose=0 -> es necesario para que no ensucie la salida de la consola.
+timeout=n -> donde n son los segundos que esperará para parar.
 
-RESUMEN:
+## Como trabajan los modos de envío:
+srp() -> capa 2, frames
+sr1() -> capa 3, paquetes
 
+    FUNCIONALIDADES:
+
+## ESCANEO 
+Mediante un envio de un frame ARP se descubriran los hosts de la red. 
+En Scapy se puede definir el modo de envio configurando op -> op=1 == who-has, op=2 == it-at
+Enviaremos el paquete op=1 y recibiremos una tupla con dos elementos. Se puede acceder a ellos:
+paquete[0] -> son los que tuvieron respuesta , paquete[1] -> los que no tuvieron respuesta
+
+Agregado: 
+- Se puede introducir la red que será objetivo del escaneo. -r --range
+
+## PING 
+Envio de un paquete ICMP. 
+
+Agregado: 
+- Se puede introducir el objetivo para enviar el paquete ICMP. -t --target 
