@@ -51,18 +51,19 @@ def icmp():
         if respuesta[0]:
                 print(f'Respuesta de {objetivo} ')
 
-def service(): #NO FUNCIONA 
+def service():
 
         paquete = IP(dst=objetivo) / TCP(flags='S',dport=PORT)
 
-        respuesta = sr(paquete, timeout=1, verbose=0)
+        respuesta = sr1(paquete, timeout=1, verbose=0)
 
-        if respuesta[0]:
+
+        if respuesta:
 
                 paquete = IP(dst=objetivo) / TCP(flags='A',dport=PORT)
-                respuesta = sr(paquete, timeout=1, verbose=0)
+                respuesta = sr1(paquete, timeout=1, verbose=0)
 
-                respuesta[0].show()
+                respuesta.show()
 
 
 if args.scan:
@@ -82,6 +83,7 @@ elif args.service:
                 PORT = args.port
                 if args.target:
                         objetivo = args.target
+                        service()
                 else:
                         print('Necesitas ingresar una ip: -t --target')
         else:
@@ -94,6 +96,7 @@ else:
 ## verbose=0 -> es necesario para que no ensucie la salida de la consola.
 ## timeout=n -> donde n son los segundos que esperará para parar.
 
+                                                                   
 
 
 
