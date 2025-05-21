@@ -28,7 +28,7 @@ def escaneo():
 
         dispositivos = []
 
-        escaneo_red = srp(paquete,verbose=0,timeout=5)[0]
+        escaneo_red = srp(paquete,verbose=0,timeout=1)[0]
 
         for enviado, recibido in escaneo_red:
                 dispositivos.append(recibido.psrc)
@@ -40,12 +40,14 @@ def ping():
         ip = IP(dst=objetivo)
         paquete = ip / ICMP()
         print(f'Enviando ping a {objetivo}')
-        respuesta = sr1(paquete)
+        respuesta = sr1(paquete, timeout=2,verbose=0)
+
+        if respuesta is None:
+                print(f'{objetivo} no está en la red.')
+                return
 
         if respuesta[0]:
                 print(f'Respuesta de {objetivo} ')
-        else:
-                print(f'{objetivo} no responde.') #NO FUNCIONA SI HAGO PING A UNA DIRECCIÓN QUE NO EXISTE
 
 if args.scan:
         if args.range:
@@ -61,4 +63,7 @@ elif args.ping:
                 print('Falta argumento -t, --target para enviar ICMP.')
 else:
         parser.print_help()
+
+
+
                                 
