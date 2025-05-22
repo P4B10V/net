@@ -88,30 +88,8 @@ TCP(seq = conf[1].ack , ack = conf[1].seq + 1)
 
 
 ###########################
-
-
-<Ether  dst=08:00:27:ce:85:b7 src=08:00:27:b8:e1:0e type=IPv4 |
-<IP  version=4 ihl=5 tos=0x0 len=40 id=1 flags= frag=0 ttl=64 proto=tcp chksum=0x65a0 src=10.22.0.250 dst=10.22.0.10 |
-<TCP  sport=ftp_data dport=5050 seq=0 ack=0 dataofs=5 reserved=0 flags=S window=8192 chksum=0x66e5 urgptr=0 |>>>                   
-
-
-
-<Ether  dst=08:00:27:b8:e1:0e src=08:00:27:ce:85:b7 type=IPv4 |
-<IP  version=4 ihl=5 tos=0x0 len=44 id=0 flags=DF frag=0 ttl=64 proto=tcp chksum=0x259d src=10.22.0.10 dst=10.22.0.250 |
-<TCP  sport=5050 dport=ftp_data seq=1096664026 ack=1 dataofs=6 reserved=0 flags=SA window=64240 chksum=0x6eef urgptr=0 options=[('MSS', 1460)] |
-<Padding  load=b'\x00\x00' |>>>>                                                                                                             
-
-
-<Ether  dst=08:00:27:ce:85:b7 src=08:00:27:b8:e1:0e type=IPv4 |
-<IP  version=4 ihl=5 tos=0x0 len=40 id=0 flags=DF frag=0 ttl=64 proto=tcp chksum=0x25a1 src=10.22.0.250 dst=10.22.0.10 |
-<TCP  sport=ftp_data dport=5050 seq=1 ack=0 dataofs=5 reserved=0 flags=R window=0 chksum=0x86e2 urgptr=0 |>>>                    
-
-
-<Ether  dst=08:00:27:ce:85:b7 src=08:00:27:b8:e1:0e type=IPv4 |<IP  version=4 ihl=5 tos=0x0 len=40 id=1 flags= frag=0 ttl=64 proto=tcp chksum=0x65a0 src=10.22.0.250 dst=10.22.0.10 |<TCP  sport=ftp_data dport=http seq=1 ack=1096664027 dataofs=5 reserved=0 flags=A window=8192 chksum=0x7507 urgptr=0 |>>>          
-
-
-
-<Ether  dst=08:00:27:b8:e1:0e src=08:00:27:ce:85:b7 type=IPv4 |<IP  version=4 ihl=5 tos=0x0 len=40 id=0 flags=DF frag=0 ttl=64 proto=tcp chksum=0x25a1 src=10.22.0.10 dst=10.22.0.250 |<TCP  sport=http dport=ftp_data seq=1096664027 ack=0 dataofs=5 reserved=0 flags=R window=0 chksum=0x9514 urgptr=0 |<Padding  load=b'\x00\x00\x00\x00\x00\x00' |>>>>
+  PROBLEMAS 
+###########################
 
 
 
