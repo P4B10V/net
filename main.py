@@ -1,8 +1,8 @@
 ## SNIFFER ##
 
 import argparse
-from scapy.all import ARP, Ether, IP, ICMP, TCP, srp, sr1, sr
-
+import random
+from scapy.all import ARP, Ether, IP, ICMP, TCP, srp, sr1, sr, Raw
 
 
 parser = argparse.ArgumentParser(prog='~ SNIFFER ~',
@@ -53,17 +53,27 @@ def icmp():
 
 def service():
 
-        paquete = IP(dst=objetivo) / TCP(flags='S',dport=PORT)
 
-        respuesta = sr1(paquete, timeout=1, verbose=0)
+        SPORT = random.randint(1024,65535)
+        paquete = IP(dst=objetivo) / TCP(flags='S',dport=PORT,sport=SPORT)
+        respuesta = sr1(paquete, timeout=5, verbose=0)
 
 
         if respuesta:
+                if respuesta.haslayer(TCP) and respuesta[TCP].flags == 'SA':
+                        secuencia = respuesta[TCP].ack
+                        ACK = respuesta[TCP].seq + 1
 
-                paquete = IP(dst=objetivo) / TCP(flags='A',dport=PORT)
-                respuesta = sr1(paquete, timeout=1, verbose=0)
+                        paquete = IP(dst=objetivo) / TCP(flags='A',ack=ACK,seq=secuencia,dport=PORT,sport=SPORT)
+                        confirmacion = sr1(paquete,timeout=10)
 
-                respuesta.show()
+                        paquete_banner = IP(dst=objetivo) / TCP(flags='PA', ack=ACK, seq=secuencia, dport=PORT, sport=SPORT)
+                        respuesta_banner = sr1(paquete_banner, timeout=5, verbose=0)
+
+                        if respuesta_banner:
+                                respuesta_banner.show()
+                else:
+                        print('SYN-ACK no válido')
 
 
 if args.scan:
@@ -96,7 +106,7 @@ else:
 ## verbose=0 -> es necesario para que no ensucie la salida de la consola.
 ## timeout=n -> donde n son los segundos que esperará para parar.
 
-                                                                   
+                                                                     
 
 
 
