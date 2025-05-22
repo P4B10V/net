@@ -34,5 +34,15 @@ No sé como obtener la información del servicio.
 22/05/2025
 Llevo días probando a intentarlo con Scapy sin éxito. El problema era que Scapy sólo trabaja hasta la capa 4, y estaba intentando obtener información
 de la capa de aplicación para averiguar si en un puerto había un servidor SSH. Para ello, se necesita usar socket para poder hacer la conexión y 
-poder recibir el banner de SSH. Al final fui capaz de hacerlo, aunque creo que no sirven para todos, tengo que instalar otros servicios y seguir probando 
-para ver si los detecta tambien. 
+poder recibir el banner de SSH. Al final fui capaz de hacerlo, aunque creo que no sirven para todos, tengo que instalar otros servicios y seguir probando para ver si los detecta tambien. 
+
+# python3 main.py -S -t 10.22.0.10 -p 21
+En el puerto 21 se detecto: 220 (vsFTPd 3.0.3)
+
+# python3 main.py -S -t 10.22.0.10 -p 5050
+En el puerto 5050 se detecto: SSH-2.0-OpenSSH_9.2p1 Debian-2+deb12u5
+
+
+
+
+
