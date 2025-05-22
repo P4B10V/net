@@ -91,6 +91,8 @@ TCP(seq = conf[1].ack , ack = conf[1].seq + 1)
   PROBLEMAS 
 ###########################
 
+Estoy teniendo problemas con Scapy para intentar detectar los servicios detras de los puertos. Buscando por internet recomiendan socket.
+
 
 
 
