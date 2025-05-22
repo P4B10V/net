@@ -2,7 +2,8 @@
 
 import argparse
 import random
-from scapy.all import ARP, Ether, IP, ICMP, TCP, srp, sr1, sr, Raw
+import socket
+from scapy.all import ARP, Ether, IP, ICMP, TCP, srp, sr1
 
 
 parser = argparse.ArgumentParser(prog='~ SNIFFER ~',
@@ -53,24 +54,16 @@ def icmp():
 
 def service():
 
+        client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-        SPORT = random.randint(1024,65535)
-        paquete = IP(dst=objetivo) / TCP(flags='S',dport=PORT,sport=SPORT)
-        respuesta = sr1(paquete, timeout=5, verbose=0)
+        client.connect((objetivo, PORT))
 
+        conexion = client.recv(1024)
 
-        if respuesta:
-                if respuesta.haslayer(TCP) and respuesta[TCP].flags == 'SA':
-                        secuencia = respuesta[TCP].ack
-                        ACK = respuesta[TCP].seq + 1
+        conexion = conexion.decode()
 
-                        paquete = IP(dst=objetivo) / TCP(flags='A',ack=ACK,seq=secuencia,dport=PORT,sport=SPORT)
-                        confirmacion = sr1(paquete,timeout=10)
+        print(f'En el puerto {PORT} se detecto: {conexion}')
 
-                        if confirmacion:
-                                confirmacion.show()
-                else:
-                        print(f'{PORT} no disponible.')
 
 
 if args.scan:
@@ -102,6 +95,7 @@ else:
 
 ## verbose=0 -> es necesario para que no ensucie la salida de la consola.
 ## timeout=n -> donde n son los segundos que esperará para parar.
+
 
                                                                      
 
