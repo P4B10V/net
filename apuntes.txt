@@ -30,3 +30,9 @@ Agregado:
 ## SERVICIOS
 Averiguar que tipo de servicio está escuchando en un puerto e ip. Estoy teniendo problemas con la secuencia en la que trabaja TCP. 
 No sé como obtener la información del servicio.
+
+22/05/2025
+Llevo días probando a intentarlo con Scapy sin éxito. El problema era que Scapy sólo trabaja hasta la capa 4, y estaba intentando obtener información
+de la capa de aplicación para averiguar si en un puerto había un servidor SSH. Para ello, se necesita usar socket para poder hacer la conexión y 
+poder recibir el banner de SSH. Al final fui capaz de hacerlo, aunque creo que no sirven para todos, tengo que instalar otros servicios y seguir probando 
+para ver si los detecta tambien. 
