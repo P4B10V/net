@@ -88,10 +88,11 @@ TCP(seq = conf[1].ack , ack = conf[1].seq + 1)
 
 
 ###########################
-  PROBLEMAS 
+  LIMITACIONES DE SCAPY
 ###########################
 
-Estoy teniendo problemas con Scapy para intentar detectar los servicios detras de los puertos. Buscando por internet recomiendan socket.
+Estoy teniendo problemas con Scapy para intentar detectar los servicios detras de los puertos. Buscando información Scapy sólo trabaja hasta la capa 4 por lo 
+que no puede obtener información de servicios de la capa de aplicación como SSH. Por esa razón, tendré que intentarlo usando socket.
 
 
 
