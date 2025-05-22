@@ -67,13 +67,10 @@ def service():
                         paquete = IP(dst=objetivo) / TCP(flags='A',ack=ACK,seq=secuencia,dport=PORT,sport=SPORT)
                         confirmacion = sr1(paquete,timeout=10)
 
-                        paquete_banner = IP(dst=objetivo) / TCP(flags='PA', ack=ACK, seq=secuencia, dport=PORT, sport=SPORT)
-                        respuesta_banner = sr1(paquete_banner, timeout=5, verbose=0)
-
-                        if respuesta_banner:
-                                respuesta_banner.show()
+                        if confirmacion:
+                                confirmacion.show()
                 else:
-                        print('SYN-ACK no válido')
+                        print(f'{PORT} no disponible.')
 
 
 if args.scan:
