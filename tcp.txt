@@ -1,0 +1,97 @@
+## APUNTES SOBRE TCP ## 
+Me estoy encontrando con problemas a la hora de obtener el servicio que esta escuchando en el puerto. Por lo que estudiaré TCP:
+
+
+
+El segmento TCP consta de una cabecera y un cuerpo. 
+  -Cabecera: 
+
+Campos de los puertos: contiene el puerto de origen y destino. 
+
+El número de secuencia, identifica el primer byte del campo de datos. En TCP no se enumeran segmentos, sino bytes. Este número de secuencia indica el primer byte 
+que se envía -> Ese número sería el ISN(Initial Secuencial Numer), y a partir de ahí se irá numerando. 
+
+Campo ACK: El extremo de la comunicación indica el proximo byte que está dispuesto a recibir. En un inicio de una comunicación, este campo estaría vacío. 
+
+Campo de control: Indica la función específica del protocolo. 
+
+
+
+  ## PARTES EN LA COMUNICACIÓN TCP
+
+1 . Establecer la comunicación, por lo que el emisor enviará un segmento TCP con ACK = 0, SYN = 1 (indica que se quiere establecer una comunicación) y 
+el número de secuencia = n (donde n es un número elegido aleatoriamente por el emisor, indica el inicio de la comunicación). ESTE SEGMENTO NO CONTIENE DATOS
+
+2 . La respuesta del receptor contiene un ACK = 1 (reconoce el SYN del emisor), y inicia tambien la comunicación con SYN = 1 y el número ACK
+sería el numero de secuencia (del emisor) + 1. También el receptor añadirá a su respuesta un número de sencuencia generado aleatoriamente (este numero
+es distinto al número ACK)
+
+3 . El emisor acepta la conexión, ahora como no quiere iniciar conexión pues "ya está establecida" el SYN = 0, ACK = 1 , el número ACK será el 
+número de secuencia que nos envía el receptor + 1 , y el número de secuencia será el 1001 (pues usamos ya el 1000)
+
+
+
+  ## ¿Cómo lo tendría que hacer en Scapy? ## 
+
+-INICIO COMUNICACIÓN -> emisor    IP(dst='10.22.0.10') / TCP(dport=5050,ack=0,seq=50,flags='S')
+
+-RECIBI: 
+
+###[ IP ]###
+  version   = 4
+  ihl       = 5
+  tos       = 0x0
+  len       = 44
+  id        = 0
+  flags     = DF
+  frag      = 0
+  ttl       = 64
+  proto     = tcp
+  chksum    = 0x259d
+  src       = 10.22.0.10
+  dst       = 10.22.0.250
+  \options   \
+###[ TCP ]###
+     sport     = 5050
+     dport     = ftp_data
+     seq       = 3694325338        ## Genera una secuencia aleatoria
+     ack       = 51                ## Como usamos el 50, ahora tenemos que usar 51 en la respuesta
+     dataofs   = 6
+     reserved  = 0
+     flags     = SA                ## SYN-ACK 
+     window    = 64240
+     chksum    = 0xa967
+     urgptr    = 0
+     options   = [('MSS', 1460)]
+###[ Padding ]###
+        load      = b'\x00\x00'
+
+
+El receptor responde con ack = 51 , flags = SA (SYN-ACK), y la secuencia = 3694325338
+
+
+-Ahora para responder al SYN-ACK los campos deberán ser: TCP(dport=5050, seq= 51, ack= 3694325338 + 1, flags='A')
+
+----SYN
+>>> tcp = TCP(dport=5050,flags='S',ack=0)
+>>> ip = IP(dst='10.22.0.10')
+>>> inicio = ip / tcp 
+>>> conf = sr1(inicio)
+
+----SYN-ACK
+<IP  version=4 ihl=5 tos=0x0 len=44 id=0 flags=DF frag=0 ttl=64 proto=tcp chksum=0x259d src=10.22.0.10 dst=10.22.0.250 
+<TCP  sport=5050 dport=ftp_data seq=586346309 ack=1 dataofs=6 reserved=0 flags=SA window=64240 chksum=0x61ef urgptr=0 options=[('MSS', 1460)]
+<Padding  load=b'\x00\x00' |>>>  
+
+-----ACK 
+TCP(seq = conf[1].ack , ack = conf[1].seq + 1) 
+
+
+
+
+
+
+
+
+
+
