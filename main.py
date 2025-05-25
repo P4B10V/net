@@ -1,4 +1,4 @@
-## SNIFFER ##
+## NET ##
 
 import argparse
 import random
@@ -32,10 +32,8 @@ def escaneo():
         dispositivos = []
 
         escaneo_red = srp(paquete,verbose=0,timeout=1)[0]
-
         for enviado, recibido in escaneo_red:
                 dispositivos.append(recibido.psrc)
-
         print(f'{dispositivos} Dispositivos encontrados en la red.')
 
 def icmp():
@@ -54,12 +52,11 @@ def icmp():
 
 def service():
 
+  
         client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
         client.connect((objetivo, PORT))
 
         conexion = client.recv(1024)
-
         conexion = conexion.decode()
 
         print(f'En el puerto {PORT} se detecto: {conexion}')
