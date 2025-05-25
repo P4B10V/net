@@ -43,9 +43,9 @@ En el puerto 21 se detecto: 220 (vsFTPd 3.0.3)
 # python3 main.py -S -t 10.22.0.10 -p 5050
 En el puerto 5050 se detecto: SSH-2.0-OpenSSH_9.2p1 Debian-2+deb12u5
 
--23/05/2025 
+-23/05/2025 (EN PROCESO)
 Me gustaría implementar un tcpdump para ver que está ocurriendo según los argumentos que se seleccionen, una opción como -v --verbose
 https://docs.python.org/es/3.8/library/threading.html -> threading 
 
-
-
+-25/05/2025
+Trabajar en la función servicios para que te diga exactamente que pasó. Si el puerto está abierto, cerrado o filtrado.
