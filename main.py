@@ -6,8 +6,8 @@ import socket
 from scapy.all import ARP, Ether, IP, ICMP, TCP, srp, sr1
 
 
-parser = argparse.ArgumentParser(prog='~ SNIFFER ~',
-                               description='Proyecto personal para crear un sniffer con Python/Scapy')
+parser = argparse.ArgumentParser(prog='~ NET ~',
+                               description='Proyecto personal para crear un script con distintas funcionalidades usando Python/Scapy')
 
 
 #store_true hace que la opción sea booleana, es decir, si se usa == True, y si no == False
@@ -32,8 +32,10 @@ def escaneo():
         dispositivos = []
 
         escaneo_red = srp(paquete,verbose=0,timeout=1)[0]
+
         for enviado, recibido in escaneo_red:
                 dispositivos.append(recibido.psrc)
+
         print(f'{dispositivos} Dispositivos encontrados en la red.')
 
 def icmp():
@@ -52,15 +54,21 @@ def icmp():
 
 def service():
 
-  
         client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client.connect((objetivo, PORT))
+        client.settimeout(3)
 
-        conexion = client.recv(1024)
-        conexion = conexion.decode()
+        try:
+                client.connect((objetivo, PORT))
 
-        print(f'En el puerto {PORT} se detecto: {conexion}')
+                conexion = client.recv(1024)
+                conexion = conexion.decode()
 
+                print(f'En el puerto {PORT} se detecto: {conexion}')
+
+        except ConnectionRefusedError:
+                print(f'Conexión rechazada por un firewall o puerto {PORT} cerrado.')
+        except socket.timeout:
+                print('Tiempo de espera agotado. Posible DROP o host inalcanzable.')
 
 
 if args.scan:
@@ -92,7 +100,6 @@ else:
 
 ## verbose=0 -> es necesario para que no ensucie la salida de la consola.
 ## timeout=n -> donde n son los segundos que esperará para parar.
-
 
                                                                      
 
