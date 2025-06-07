@@ -21,8 +21,6 @@ parser.add_argument('-S', '--service', action='store_true', help='Analizar servi
 args = parser.parse_args()
 
 
-#Lo primero que quiero hacer es un escaneo de mi red para ver que dispositivos están activos, por lo que la primera funcionalidad
-#será hacer un escaneo de red. La opción elegida será enviar un ARP y ver que respuestas tengo.
 def escaneo():
 
         arp = ARP(op=1, pdst=red) #op=1 == who-has, op=2 == it-at
